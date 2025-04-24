@@ -1,4 +1,4 @@
-// Given a sorted array, arr[] and a number target, you need to find the number of occurrences of target in arr[]. 
+pu// Given a sorted array, arr[] and a number target, you need to find the number of occurrences of target in arr[]. 
 
 class Solution {
     int countFreq(int[] arr, int target) {
