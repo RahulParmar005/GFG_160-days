@@ -6,7 +6,7 @@
 // The objective is to minimize the maximum number of pages assigned to any student. In other words, out of all possible allocations, find the arrangement where the student who receives the most pages still has the smallest possible maximum.
 
 // Note: Return -1 if a valid assignment is not possible, and allotment should be in contiguous order (see the explanation for better understanding).
-
+import java.util.Arrays;
 
 class Solution {
     public static int findPages(int[] arr, int k) {
