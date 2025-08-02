@@ -1,37 +1,52 @@
-// Given an array arr[] of integers and an integer k, your task is to find the maximum value for each contiguous subarray of size k. The output should be an array of maximum values corresponding to each contiguous subarray.
+// Given an array of positive integers arr[] and a non-negative integer x, the task is to find the longest sub-array where the absolute difference between any two elements is not greater than x.
+// If multiple such subarrays exist, return the one that starts at the smallest index.
 
 
 class Solution {
-    static ArrayList<Integer> maxOfSubarrays(int[] arr, int k) {
+    public ArrayList<Integer> longestSubarray(int[] arr, int x) {
         // code here
-        int n = arr.length;
+        Deque<Integer> maxQueue = new LinkedList<>();
+        Deque<Integer> minQueue = new LinkedList<>();
+        
+        int n = arr.length, start = 0, end = 0;
+        int reStart = 0, reEnd = 0;
+        
+        while(end < n) {
+            while(!minQueue.isEmpty() && arr[minQueue.peekLast()] > arr[end]) {
+                minQueue.pollLast();
+            }
+            
+            while(!maxQueue.isEmpty() && arr[maxQueue.peekLast()] < arr[end]) {
+                maxQueue.pollLast();
+            }
+            
+            minQueue.addLast(end);
+            maxQueue.addLast(end);
+            
+            while(arr[maxQueue.peekFirst()] - arr[minQueue.peekFirst()] > x) {
+                if(start == minQueue.peekFirst()) {
+                    minQueue.pollFirst();
+                }
+                if(start == maxQueue.peekFirst()) {
+                    maxQueue.pollFirst();
+                }
+                start += 1;
+            }
+            
+            if(end - start > reEnd - reStart) {
+                reStart = start;
+                reEnd = end;
+            }
+            end += 1;
+        }
+        
         ArrayList<Integer> res = new ArrayList<>();
-        Deque<Integer> dq = new ArrayDeque<Integer>();
-        
-        for(int i = 0; i < k; i++) {
-            while(!dq.isEmpty() && arr[i] >= arr[dq.peekLast()]) {
-                dq.pollLast();
-            }
-            dq.addLast(i);
+        for(int i = reStart; i <= reEnd; i++) {
+            res.add(arr[i]);
         }
-        
-        for(int i = k; i < n; ++i) {
-            res.add(arr[dq.peekFirst()]);
-            
-            while(!dq.isEmpty() && dq.peekFirst() <= i -k) {
-                dq.pollFirst();
-            }
-            
-            while(!dq.isEmpty() && arr[i] >= arr[dq.peekLast()]) {
-                dq.pollLast();
-            }
-            
-            dq.addLast(i);
-        }
-        
-        res.add(arr[dq.peekFirst()]);
         
         return res;
+        
         
     }
 }
